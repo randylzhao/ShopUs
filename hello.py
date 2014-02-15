@@ -20,6 +20,7 @@ def advertiserhome():
     else:
         return render_template('login.html')
 
+# since it's proof of concept we're not salting and bcrypting
 @app.route('/signup', methods = ['GET','POST'])
 def add_advertiser():
     if request.method == 'POST':
