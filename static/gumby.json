@@ -1,0 +1,8 @@
+{
+	"build": {
+		"gumbyPath": "js",
+		"outpath" : "jso",
+		"modules": ["retina", "toggleswitch", "validation"],
+		"buildSourceMap": true
+	}
+}
