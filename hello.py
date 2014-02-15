@@ -45,7 +45,7 @@ def login(name, password):
         usr_obj = db.users.find_one({"User":name})
         if( (usb_obj != None) and (usb_obj['password']==password)):
             flask.session['user'] = name
-            return render_template('login_success.html')
+            return loggedIn()
             
 def loggedIn()
 	if flask.session['user'] != None:
