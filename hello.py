@@ -20,8 +20,8 @@ def retrieve():
 @app.route('/login', methods = ['GET', 'POST'])
 def advertiserhome():
     if request.method == 'POST':
-        username = request.method['login_email']
-        password = request.method['login_password']
+        username = request.form['login_email']
+        password = request.form['login_password']
         login(username, password)
     else:
         return render_template('login.html')
@@ -29,8 +29,8 @@ def advertiserhome():
 @app.route('/signup', methods = ['GET','POST'])
 def add_advertiser():
 	if request.method == 'POST':
-		username = request.method['signup_email']
-		password = request.method['signup_password']
+		username = request.form['signup_email']
+		password = request.form['signup_password']
 		if(db.users.find_one({"User":username}) != None):
 			flash("that username is already in use")
 			return render_template('signup.html')
