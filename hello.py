@@ -1,6 +1,7 @@
 from flask import *
 from flask.ext.pymongo import PyMongo
 import os
+import json
 
 app = Flask(__name__)
 
@@ -40,10 +41,23 @@ def createhunt():
     else:
         return redirect(url_for('adlogin'))
 
+@app.route('/addhunt', methods = ['POST'])
+def addhunt():
+    if loggedin():
+        db = mongo.db
+        if request.method=='POST':
+            huntname = request.form['name']
+            prize = float(request.form['prize'])
+            keys = request.form['keys']
+            db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':json.dumps(keys)})
+        return redirect(url_for('adhome'))
+    else:
+        return redirect(url_for('adlogin'))
+
 @app.route('/adhome')    
 def adhome():
     if loggedin():
-        db = Mongo.db
+        db = mongo.db
         myhunts = db.hunts.find({'user':session['user']})
         return render_template('adhome.html',  hunts = myhunts)
     else:
@@ -84,8 +98,8 @@ def add_advertiser():
 
 def login(name, password):
     db = mongo.db
-    usr_obj = db.users.find_one({"User":name})
-    if( (usr_obj != None) and (usr_obj['password']==password)):
+    usr_obj = db.users.find_one({"Email":name})
+    if( (usr_obj != None) and (usr_obj['Password']==password)):
         return True
     else:
         return False
