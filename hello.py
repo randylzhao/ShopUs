@@ -51,7 +51,8 @@ def addhunt():
             huntname = request.form['name']
             prize = float(request.form['prize'])
             keys = request.form['keys']
-            db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':json.dumps(keys)})
+            email = session['user']
+            db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':json.dumps(keys), 'Email':email})
         return redirect(url_for('adhome'))
     else:
         return redirect(url_for('adlogin'))
@@ -61,6 +62,7 @@ def adhome():
     if loggedin():
         db = mongo.db
         myhunts = db.hunts.find({'Email':session['user']})
+        puts str(myhunts)
         return render_template('adhome.html',  hunts = myhunts)
     else:
         return redirect(url_for('adlogin'))
@@ -90,7 +92,7 @@ def add_advertiser():
         db = mongo.db
         username = request.form['signup_email']
         password = request.form['signup_password']
-        if(db.users.find_one({"User":username}) != None):
+        if(db.users.find_one({"Email":username}) != None):
             flash("that username is already in use")
             return render_template('signup.html')
         else:
@@ -137,11 +139,11 @@ hunt_list = [
 
 @app.route("/founditem", methods=['GET', 'POST'])
 def found_item():
-    item = request.values.get('body', None)
+    item = request.values.get('Body', None)
     if item in hunt_list:
         message = "Congrats! You found " + item
     else:
-        message = "Lolz. ur a n00b"
+        message = "Lolz. ur a n00b" + item
     
     resp = twilio.twiml.Response()
     resp.message(message)
