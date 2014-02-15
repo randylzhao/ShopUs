@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block body %}
 <form name="signup" action="#" method="post" accept-charset="utf-8">
 <ul>
 Email:<input type="email" name="signup_email" placeholder="youremail@email.com" required />
@@ -5,3 +7,5 @@ Password:<input type="password" name="signup_password" placeholder="your_passwor
 <input type="submit" value="Signup"/>
 </ul>
 </form>
+
+{% endblock %}
