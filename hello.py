@@ -37,7 +37,7 @@ def loggedin():
 @app.route('/createhunt')
 def createhunt():
     if loggedin():
-        return render_template('createhunt.html', user=sesion['user'])
+        return render_template('createhunt.html')
     else:
         return redirect(url_for('adlogin'))
 
