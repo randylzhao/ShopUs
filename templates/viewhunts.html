@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>
+Text {{ phone }} the name of the hunt to get your first clue!
+</h1>
+<table class="striped">
+  <thead>
+    <tr>
+      <th>Hunts</th>
+      <th>Prize Left</th>
+      <th>Length of Hunt</th>
+      <th>Company</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in hunts %}
+    <tr>
+      <td>{{ entry.huntname }}</td>
+      <td>{{ entry.prize }}</td>
+      <td>{{ 5 }}</td>
+      <td>{{ entry.Firm }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
