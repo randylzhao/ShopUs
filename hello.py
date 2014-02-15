@@ -70,7 +70,7 @@ def adlogin():
         password = request.form['login_password']
         if not (username in session):
             if login(username, password):
-                session['user'] = name
+                session['user'] = username
                 return redirect(url_for('adhome'))
             else:
                 flash("could not log you in, either your
