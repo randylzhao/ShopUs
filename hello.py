@@ -4,8 +4,9 @@ from flask.ext.pymongo import PyMongo
 
 app = Flask(__name__)
 
-app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
-mongo = PyMongo(app)
+if not hasattr(app.config,'MONGO_URI'):
+    app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
+    mongo = PyMongo(app)
 
 @app.route('/')
 def hello():
@@ -27,20 +28,22 @@ def advertiserhome():
 
 @app.route('/signup', methods = ['GET','POST'])
 def add_advertiser():
-	if request.method == 'POST':
-		username = request.form['signup_email']
-		password = request.form['signup_password']
-		if(db.users.find_one({"User":username}) != None):
-			flash("that username is already in use")
-			return render_template('signup.html')
-		else:
-			return render_template('signup.html')
+    if request.method == 'POST':
+        username = request.form['signup_email']
+        password = request.form['signup_password']
+        if(db.users.find_one({"User":username}) != None):
+            flash("that username is already in use")
+            return render_template('signup.html')
+        else:
+            flash("signup successful")
+    else:
+        return render_template('signup.html')
 
 def login(name, password):
-    db = mongo.db
-    usr_obj = db.users.find_one({"User":name})
-	if( (usb_obj != None) and (usb_obj['password']=password)):
-		return render_template('login_success.html')
+        db = mongo.db
+        usr_obj = db.users.find_one({"User":name})
+        if( (usb_obj != None) and (usb_obj['password']==password)):
+            return render_template('login_success.html')
 
 @app.route('/user')
 def user():
