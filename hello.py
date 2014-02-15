@@ -55,5 +55,5 @@ def upd():
     db = mongo.db
     db.posts.insert({"User": "Rex", "Role": "Test"})
     return 'Success'
-
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
