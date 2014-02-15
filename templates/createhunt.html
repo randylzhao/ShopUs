@@ -3,13 +3,19 @@
 <script>
 $(document).ready(function(){
 $("#add").click(function(){
-var intId=$("#addhuntfield").length-1;
-var fieldwrapper=$("<li class='field'></li>");
-var lbl = $("<label class='inline' for='key"+intId+"'>Name</label>");
-var inp = $("<input type='number' id='key"+intId+"' name='keys' placeholder='11111' required/>");
-fieldwrapper.append(lbl);
-fieldwrapper.append(inp);
-$("#addhuntfield").append(fieldwrapper);
+var intId=Math.floor(($("#addhuntfield").length-2)/2)+1;
+var fieldwrapper1=$("<li class='field'></li>");
+var lbl1 = $("<label class='inline' for='key"+intId+"'>Key</label>");
+var inp1 = $("<input class='narrow number input' type='number' id='key"+intId+"' name='keys[]' placeholder='11111' required/>");
+var fieldwrapper2=$("<li class='field'></li>");
+var lbl2 = $("<label class='inline' for='clue"+intId+"'>Clue</label>");
+var inp2 = $("<input class='wide text input' type='number' id='key"+intId+"' name='keys[]' placeholder='Take a picture of the first item on aisle 9' required/>");
+fieldwrapper1.append(lbl1);
+fieldwrapper1.append(inp1);
+$("#addhuntfield").append(fieldwrapper1);
+fieldwrapper1.append(lbl2);
+fieldwrapper1.append(inp2);
+$("#addhuntfield").append(fieldwrapper2);
 });
 });
 </script>
@@ -19,15 +25,19 @@ $("#addhuntfield").append(fieldwrapper);
 <ul>
   <li class="field">
     <label class="inline" for="name">Name</label>
-    <input type="text" name="name" placeholder="your hunt name" required/>
+    <input class = "wide text input" type="text" name="name" placeholder="your hunt name" required/>
   </li>
   <li class="field">
     <label class="inline" for="prize">Prize</label>
-    <input type="number" name="prize" placeholder="0.00" required/>
+    <input class = "narrow number input" type="number"  name="prize" placeholder="0.00" required/>
   </li>
   <li class="field">
     <label class="inline" for="key1">Key</label>
-    <input type="number" id="key1" name="keys" placeholder="11111" required/>
+    <input class = "narrow number input" type="number" id="key1" name="keys[]" placeholder="3929182" required/>
+  </li>
+  <li class="field">
+    <label class="inline" for="clue1">Clue</label>
+    <input class = "wide text input" type="text" id="clue1" name="clues[]" placeholder="Take a picture of the first item on aisle 9" required/>
   </li>
 </ul>
 </fieldset>
