@@ -6,7 +6,7 @@ import twilio.twiml
 
 
 app = Flask(__name__)
-
+PHONE = 4125158483
 app.secret_key = os.urandom(100)
 if not hasattr(app.config,'MONGO_URI'):
     app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
@@ -18,6 +18,7 @@ signup.html - register account for advertisers
 login.html - login for advertisers
 createhunt.html - creates a scavenger hunt for advertisers
 home.html - index page with two buttons one for customers and one for advertisers
+viewhunts.html - displays the hunts available for customers
 '''
 
 
@@ -52,7 +53,8 @@ def addhunt():
             prize = float(request.form['prize'])
             keys = request.form['keys']
             email = session['user']
-            db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':json.dumps(keys), 'Email':email})
+            firmname = db.users.find_one({"Email":email})["Firm"]
+            db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':str(json.dumps(keys)), 'Email':email, 'Firm': firmname })
         return redirect(url_for('adhome'))
     else:
         return redirect(url_for('adlogin'))
@@ -90,12 +92,13 @@ def add_advertiser():
     if request.method == 'POST':
         db = mongo.db
         username = request.form['signup_email']
+        name = request.form['signup_firm']
         password = request.form['signup_password']
         if(db.users.find_one({"Email":username}) != None):
             flash("that username is already in use")
             return render_template('signup.html')
         else:
-            db.users.insert({"Email":username,"Password":password})
+            db.users.insert({"Email":username,"Password":password, "Firm": name})
             flash("signup successful")
             return redirect(url_for('adlogin'))
     else:
@@ -116,14 +119,10 @@ def logout():
 @app.route('/user')
 def user():
     db = mongo.db
-    
-    retrieve()
+    hunts = db.hunts.find()
+    return render_template('viewhunts.html', hunts = hunts, phone = PHONE)
+        
 
-@app.route('/insert')
-def upd():
-    db = mongo.db
-    db.posts.insert({"User": "Rex", "Role": "Test"})
-    return 'Success'
 if __name__ == "__main__":
     app.run(debug=True)
 
