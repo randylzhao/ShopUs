@@ -37,7 +37,7 @@ def add_advertiser():
         else:
             db.users.insert({"Email":username,"Password":password})
             flash("signup successful")
-            return render_template('signup.html')
+            return render_template('login_success.html')
     else:
         return render_template('signup.html')
 
