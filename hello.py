@@ -6,7 +6,7 @@ import twilio.twiml
 
 
 app = Flask(__name__)
-PHONE = 4125158483
+PHONE = "412-515-8483"
 app.secret_key = os.urandom(100)
 if not hasattr(app.config,'MONGO_URI'):
     app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
@@ -116,10 +116,10 @@ def logout():
     session.pop('user', None)
     return redirect(url_for('login'))
 
-@app.route('/customer')
+@app.route('/viewhunts')
 def customer():
     db = mongo.db
-    hunts = db.hunts.find()
+    hunts = db.hunts.find().sort("Firm")
     return render_template('viewhunts.html', hunts = hunts, phone = PHONE)
         
 

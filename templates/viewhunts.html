@@ -17,13 +17,10 @@ Text {{ phone }} the name of the hunt to get your first clue!
     <tr>
       <td>{{ entry.huntname }}</td>
       <td>{{ entry.prize }}</td>
-      <td>{{ len(entry.keys) }}</td>
+      <td>{{ 5 }}</td>
       <td>{{ entry.Firm }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-<div class = "medium primary btn">
-  <a href="createhunt"> Create Hunt! </a>
-</div>
 {% endblock %}
