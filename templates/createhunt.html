@@ -22,16 +22,21 @@ $("#addhuntfield").append(fieldwrapper);
     <input type="text" name="name" placeholder="your hunt name" required/>
   </li>
   <li class="field">
-    <label class="inline" for="prize">Name</label>
+    <label class="inline" for="prize">Prize</label>
     <input type="number" name="prize" placeholder="0.00" required/>
   </li>
   <li class="field">
-    <label class="inline" for="key1">Name</label>
+    <label class="inline" for="key1">Key</label>
     <input type="number" id="key1" name="keys" placeholder="11111" required/>
   </li>
 </ul>
 </fieldset>
+<div class="medium primary btn">
+  <input type="button" value="Add Key" id="add"/>
+</div>
+<div class="medium primary btn">
 <input type="submit" value="Add Hunt">
+</div>
 </form>
 
 {% endblock %}
