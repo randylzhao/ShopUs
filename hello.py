@@ -1,15 +1,25 @@
 from flask import *
 from flask.ext.pymongo import PyMongo
-
+import os
 
 app = Flask(__name__)
+
+app.secret_key = os.urandom(100)
 
 app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
 mongo = PyMongo(app)
 
+'''
+adhome.html - homepage which displays what hunts a firm has
+signup.html - register account for advertisers
+login.html - login for advertisers
+createhunt.html - creates a scavenger hunt for advertisers
+home.html - index page with two buttons one for customers and one for advertisers
+'''
+
 
 @app.route('/')
-def hello():
+def index():
     return render_template("home.html")
 
 @app.route('/retrieve')
@@ -17,12 +27,41 @@ def retrieve():
     db = mongo.db
     return str(db.posts.find_one({"User":"Rex"}))
 
+def loggedin():
+    if 'user' in session:
+        return True
+    else:
+        return False
+
+@app.route('/createhunt')
+def createhunt():
+    if loggedin():
+        return render_template('createhunt.html', user=sesion['user'])
+    else:
+        return redirect(url_for('adlogin'))
+
+@app.route('/adhome')    
+def adhome():
+    if loggedin():
+        db = Mongo.db
+        myhunts = db.hunts.find({'user':session['user']})
+        return render_template('adhome.html',  hunts = myhunts)
+    else:
+        return redirect(url_for('adlogin'))
+
 @app.route('/login', methods = ['GET', 'POST'])
-def advertiserhome():
+def adlogin():
     if request.method == 'POST':
         username = request.form['login_email']
         password = request.form['login_password']
-        login(username, password)
+        if !(username in session):
+            if login(username, password):
+                session['user'] = name
+                return redirect(url_for('adhome'))
+            else:
+                return render_template('login.html')
+        else:
+            return redirect(url_for('adhome'))
     else:
         return render_template('login.html')
 
@@ -38,19 +77,26 @@ def add_advertiser():
         else:
             db.users.insert({"Email":username,"Password":password})
             flash("signup successful")
-            return render_template('login_success.html')
+            return redirect(url_for('adlogin'))
     else:
         return render_template('signup.html')
 
 def login(name, password):
-    print 'here'
     db = mongo.db
     usr_obj = db.users.find_one({"User":name})
     if( (usb_obj != None) and (usb_obj['password']==password)):
-        return render_template('login_success.html')
+        return True
+    else:
+        return False
+
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('login'))
 
 @app.route('/user')
 def user():
+    db = mongo.db
+    
     retrieve()
 
 @app.route('/insert')
