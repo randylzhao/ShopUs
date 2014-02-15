@@ -8,7 +8,7 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def hello():
-    return "Hello WOrld"
+    return "Hello World"
 
 @app.route('/retrieve')
 def retrieve():
