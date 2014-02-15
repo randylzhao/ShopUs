@@ -5,8 +5,8 @@ import os
 app = Flask(__name__)
 
 app.secret_key = os.urandom(100)
-
-app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
+if not hasattr(app.config,'MONGO_URI'):
+    app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
 mongo = PyMongo(app)
 
 '''
@@ -65,6 +65,7 @@ def adlogin():
     else:
         return render_template('login.html')
 
+# since it's proof of concept we're not salting and bcrypting
 @app.route('/signup', methods = ['GET','POST'])
 def add_advertiser():
     if request.method == 'POST':
