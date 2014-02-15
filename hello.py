@@ -35,6 +35,7 @@ def add_advertiser():
             flash("that username is already in use")
             return render_template('signup.html')
         else:
+            db.users.insert({"Email":username,"Password":password})
             flash("signup successful")
             return render_template('signup.html')
     else:
