@@ -73,7 +73,7 @@ def adlogin():
                 session['user'] = username
                 return redirect(url_for('adhome'))
             else:
-                flash("could not log you in, either your
+                flash("could not log you in, either your \
                         email or password is wrong")
                 return render_template('login.html')
         else:
