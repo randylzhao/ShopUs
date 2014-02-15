@@ -11,9 +11,9 @@
   <tbody>
     {% for entry in hunts %}
     <tr>
-      <td>{{ entry.huntname }}</td>
-      <td>{{ entry.prize }}</td>
-      <td>{{ entry.keys }}</td>
+      <td>{{ hunts[entry].huntname }}</td>
+      <td>{{ hunts[entry].prize }}</td>
+      <td>{{ hunts[entry].keys }}</td>
     </tr>
     {% endfor %}
   </tbody>
