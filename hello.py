@@ -62,7 +62,6 @@ def adhome():
     if loggedin():
         db = mongo.db
         myhunts = db.hunts.find({'Email':session['user']})
-        puts str(myhunts)
         return render_template('adhome.html',  hunts = myhunts)
     else:
         return redirect(url_for('adlogin'))
