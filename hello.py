@@ -4,8 +4,7 @@ from flask.ext.pymongo import PyMongo
 
 app = Flask(__name__)
 
-if not hasattr(app.config, 'MONGO_URI'):
-	app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
+app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
 mongo = PyMongo(app)
 
 @app.route('/')
