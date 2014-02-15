@@ -46,6 +46,13 @@ def login(name, password):
         if( (usb_obj != None) and (usb_obj['password']==password)):
             flask.session['user'] = name
             return render_template('login_success.html')
+            
+def loggedIn()
+	if flask.session['user'] != None:
+	    return render_template('login_success.html')
+    	else:
+    	    return render_template('login.html')
+    	    
 
 @app.route('/user')
 def user():
