@@ -1,12 +1,7 @@
-import os
-from flask import Flask, url_for, render_template, request,flash
-from flask.ext.pymongo import PyMongo
+from flask import *
 
 app = Flask(__name__)
-app.secret_key = os.urandom(100)
-if not hasattr(app.config,'MONGO_URI'):
-    app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
-mongo = PyMongo(app)
+
 @app.route('/')
 def hello():
     return "Hello World"

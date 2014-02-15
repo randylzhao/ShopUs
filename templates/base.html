@@ -1,5 +1,6 @@
 <!doctype html>
 <header>
+<link type="text/css" href="{{url_for('static', filename='css/gumby.css')}}" rel="stylesheet">
 <title>Shopping Game</title>
 </header>
 {% with messages = get_flashed_messages() %}
@@ -11,5 +12,6 @@
 </ul>
 {% endif %}
 {% endwith %}
+<script src="https://code.jquery.com/jquery.js"></script>
 {% block body %}{% endblock %}
 
