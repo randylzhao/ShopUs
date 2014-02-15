@@ -85,7 +85,7 @@ def add_advertiser():
 def login(name, password):
     db = mongo.db
     usr_obj = db.users.find_one({"User":name})
-    if( (usb_obj != None) and (usb_obj['password']==password)):
+    if( (usr_obj != None) and (usb_obj['password']==password)):
         return True
     else:
         return False
