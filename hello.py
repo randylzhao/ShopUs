@@ -11,7 +11,7 @@ mongo = PyMongo(app)
 def hello():
     return mongo.db.find_one({"User":"Rex"})
 
-@app.insert('/insert')
+@app.route('/insert')
 def upd():
     db = mongo.db
     db.posts.insert({"User": "Rex", "Role": "Test"})
