@@ -1,4 +1,24 @@
 {% extends "base.html" %}
 {% block body %}
-hunts
+<table class="striped">
+  <thead>
+    <tr>
+      <th>Hunts</th>
+      <th>Prize Left</th>
+      <th>Keys</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in hunts %}
+    <tr>
+      <td>{{ entry.huntname }}</td>
+      <td>{{ entry.prize }}</td>
+      <td>{{ entry.keys }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class = "medium primary btn">
+  <a href="addhunt"> Create Hunt! </a>
+</div>
 {% endblock %}

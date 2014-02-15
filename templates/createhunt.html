@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block body %}
+<script>
+$(document).read(function(){
+$("#add").click(function(){
+var intId=$("#addhuntfield").length-1;
+var fieldwrapper=$("<li class='field'></li>");
+var lbl = $("<label class='inline' for='key"+intId+"'>Name</label>");
+var inp = $("<input type='number' id='key"+intId+"' name='keys' placeholder='11111' required/>");
+fieldwrapper.append(lbl);
+fieldwrapper.append(inp);
+$("#addhuntfield").append(fieldwrapper);
+});
+});
+</script>
+<form name="addhunt" action="addhunt" method="post" accept-charset="utf-8">
+<fieldset id="addhuntfield">
+<legend>Add Hunt</legend>
+<ul>
+  <li class="field">
+    <label class="inline" for="name">Name</label>
+    <input type="text" name="name" placeholder="your hunt name" required/>
+  </li>
+  <li class="field">
+    <label class="inline" for="prize">Name</label>
+    <input type="number" name="prize" placeholder="0.00" required/>
+  </li>
+  <li class="field">
+    <label class="inline" for="key1">Name</label>
+    <input type="number" id="key1" name="keys" placeholder="11111" required/>
+  </li>
+</ul>
+<input type="submit" value="Add Hunt">
+</form>
+
+{% endbody %}
