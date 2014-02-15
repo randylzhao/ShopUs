@@ -9,7 +9,7 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def hello():
-    return mongo.db.find_one({"User":"Rex"})
+    return str(mongo.db.find_one({"User":"Rex"}))
 
 @app.route('/insert')
 def upd():
