@@ -116,7 +116,7 @@ def logout():
     session.pop('user', None)
     return redirect(url_for('login'))
 
-@app.route('customer')
+@app.route('/customer')
 def customer():
     db = mongo.db
     hunts = db.hunts.find()
