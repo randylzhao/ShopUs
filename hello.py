@@ -10,7 +10,7 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def hello():
-    return "Hello World"
+    return render_template("home.html")
 
 @app.route('/retrieve')
 def retrieve():
@@ -39,15 +39,16 @@ def add_advertiser():
         else:
             db.users.insert({"Email":username,"Password":password})
             flash("signup successful")
-            return render_template('signup.html')
+            return render_template('login_success.html')
     else:
         return render_template('signup.html')
 
 def login(name, password):
-        db = mongo.db
-        usr_obj = db.users.find_one({"User":name})
-        if( (usb_obj != None) and (usb_obj['password']==password)):
-            return render_template('login_success.html')
+    print 'here'
+    db = mongo.db
+    usr_obj = db.users.find_one({"User":name})
+    if( (usb_obj != None) and (usb_obj['password']==password)):
+        return render_template('login_success.html')
 
 @app.route('/user')
 def user():
