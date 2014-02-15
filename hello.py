@@ -60,7 +60,7 @@ def addhunt():
 def adhome():
     if loggedin():
         db = mongo.db
-        myhunts = db.hunts.find({'user':session['user']})
+        myhunts = db.hunts.find({'Email':session['user']})
         return render_template('adhome.html',  hunts = myhunts)
     else:
         return redirect(url_for('adlogin'))
