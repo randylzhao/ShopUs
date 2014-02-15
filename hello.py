@@ -54,7 +54,7 @@ def adlogin():
     if request.method == 'POST':
         username = request.form['login_email']
         password = request.form['login_password']
-        if !(username in session):
+        if not (username in session):
             if login(username, password):
                 session['user'] = name
                 return redirect(url_for('adhome'))
