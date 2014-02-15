@@ -3,13 +3,14 @@ from flask.ext.pymongo import PyMongo
 
 
 app = Flask(__name__)
+
 app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
 mongo = PyMongo(app)
 
 
 @app.route('/')
 def hello():
-    return "Hello World"
+    return render_template("home.html")
 
 @app.route('/retrieve')
 def retrieve():
@@ -42,10 +43,11 @@ def add_advertiser():
         return render_template('signup.html')
 
 def login(name, password):
-        db = mongo.db
-        usr_obj = db.users.find_one({"User":name})
-        if( (usb_obj != None) and (usb_obj['password']==password)):
-            return render_template('login_success.html')
+    print 'here'
+    db = mongo.db
+    usr_obj = db.users.find_one({"User":name})
+    if( (usb_obj != None) and (usb_obj['password']==password)):
+        return render_template('login_success.html')
 
 @app.route('/user')
 def user():
