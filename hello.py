@@ -180,7 +180,7 @@ def found_item():
     	index = index + 1
         message = "Congrats! You found " + item + ". "
         #update cluenumber
-        
+        db.numbers.update({'_id':user['_id']},{'$set':{'cluenumber':index}},upsert=False, multi=False)
         if index >= len(keys):
             #You're done. Remove number from database
             message = message + "Congratulations! You have won."
