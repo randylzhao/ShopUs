@@ -115,9 +115,10 @@ def login(name, password):
     else:
         return False
 
+@app.route('/logout')
 def logout():
     session.pop('user', None)
-    return redirect(url_for('login'))
+    return redirect('/')
 
 @app.route('/viewhunts')
 def customer():
@@ -127,18 +128,16 @@ def customer():
 
 @app.route("/founditem", methods=['GET', 'POST'])
 def found_item():
-    item = request.values.get('Body', None)
+    item = str(request.values.get('Body', None))
     number = request.values.get('From', None)
     
-    message = "Testing 1"
-    resp = twilio.twiml.Response()
-    resp.message(message)
+    message = ""
     
     db = mongo.db
-    number_obj = db.numbers.find_one({'number': number})
+    number_obj = db.numbers.find_one({'Number': number})
+    active_hunt = None
     if number_obj != None: 
         active_hunt = number_obj['activehunt']
-    return str(resp)
     
     #User starts a hunt
     if active_hunt == None:
@@ -146,41 +145,39 @@ def found_item():
     	active_hunt = db.hunts.find_one({'huntname':item})
     	if active_hunt == None:
     	    #hunt is not valid
-	    message = "Hunt ("+item+") not found."
+	    message = message + "Hunt ("+item+") not found."
 	    resp = twilio.twiml.Response()
 	    resp.message(message)
 	    return str(resp)
 	else:
             #hunt is valid, so add a number to numbers database
 	    db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
-	    keys = json.loads(active_hunt['keys'])
-	    message = "You have registed for " + active_hunt['huntname'] + ". Find " + keys[0]
+	    keys = active_hunt['keys']
+	    message = message + "You have registed for " + active_hunt['huntname'] + ". Find " + keys[0]
 	    resp = twilio.twiml.Response()
 	    resp.message(message)
 	    return str(resp)	    
-        
+    
     #number is registered with a hunt
-    user = db.numbers.find_one({'number':number})
+    user = db.numbers.find_one({'Number':number})
     keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
     
     if item == keys[index]:
     	#Correct answer
     	index = index + 1
-        message = "Congrats! You found " + item
-        resp = twilio.twiml.Response()
-        resp.message(message)
+        message = "Congrats! You found " + item + ". "
         #update cluenumber
-        db.numbers.update({'number':number},{'cluenumber': index}, multi = True)
+        db.numbers.update({'Number':number},{'cluenumber': index}, multi = True)
         
         if index >= len(keys):
             #You're done. Remove number from database
-            message = "Congratulations! You have won."
+            message = message + "Congratulations! You have won."
             resp = twilio.twiml.Response()
             resp.message(message)
-            db.numbers.remove({'number':number})
+            db.numbers.remove({'Number':number})
         else:
-            message = "Now try to find " + keys[index]
+            message = message + "Now try to find " + keys[index]
             resp = twilio.twiml.Response()
             resp.message(message)    
     else:
