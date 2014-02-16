@@ -139,7 +139,7 @@ def found_item():
     
     db = Mongo.db
     active_hunt = db.numbers.find_one({'number': number})['activehunt']
-    return asdf
+    return str(resp)
     
     #User starts a hunt
     if active_hunt == None:
