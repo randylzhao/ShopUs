@@ -1,11 +1,9 @@
 {% extends "genericbase.html" %}
 {% block gbody %}
-<fieldset style="width:75%; left:13%; position:relative;background-color:#FFFFFF;">
-<ul>
-<li class="field">
+<div style="width:50%; left:25%; position:relative;">
+<div style="text-align: center">
 Text {{ phone }} the name of the hunt to get your first clue!
-</li>
-<li class="field">
+</div>
 <table class="striped">
   <thead>
     <tr>
@@ -26,7 +24,5 @@ Text {{ phone }} the name of the hunt to get your first clue!
     {% endfor %}
   </tbody>
 </table>
-</li>
-</ul>
-</fieldset>
+</div>
 {% endblock %}
