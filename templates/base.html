@@ -21,30 +21,8 @@ $(document).ready(function (){
 </ul>
 {% endif %}
 {% endwith %}
-<body>
-<div class="row navbar pretty" id="nav1">
-  <ul class="eight columns">
-    <li>
-      <a href="/">Home</a>
-    </li>
-    <li>
-      <a href="viewhunts">Hunts</a>
-    </li>
-    {% if 'user' in session %}
-    <li>
-      <a href="adhome">My Account</a>
-      <div class = "dropdown">
-        <ul>
-          <li><a href="createhunt">Create Hunt</a></li>
-          <li><a href="logout">Log Out</a><li>
-        </ul>
-      </div>
-    </li>
-    {% endif %}
-  </ul>
-</div>
 {% block body %}
-
+{% block gbody %}
 {% endblock %}
-</body>
+{% endblock %}
 </html>

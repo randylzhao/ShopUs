@@ -7,14 +7,15 @@ import os
 import json
 import twilio.twiml
 
-
+internet=True
 app = Flask(__name__)
 app.config['DEBUG']=True
 PHONE = "412-515-8483"
 app.secret_key = os.urandom(100)
-if not hasattr(app.config,'MONGO_URI'):
-    app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
-mongo = PyMongo(app)
+if internet:
+    if not hasattr(app.config,'MONGO_URI'):
+        app.config['MONGO_URI'] = 'mongodb://heroku_app22228003:nnk0noj15se1nk9bfjf5ofo165@ds027769.mongolab.com:27769/heroku_app22228003'
+    mongo = PyMongo(app)
 
 '''
 adhome.html - homepage which displays what hunts a firm has
@@ -32,8 +33,10 @@ def index():
 
 @app.route('/retrieve')
 def retrieve():
-    db = mongo.db
-    return str(db.posts.find_one({"User":"Rex"}))
+    if internet:
+        db = mongo.db
+        return str(db.posts.find_one({"User":"Rex"}))
+    return "no internet, can't retrieve database"
 
 def loggedin():
     if 'user' in session:
@@ -51,18 +54,18 @@ def createhunt():
 @app.route('/addhunt', methods = ['POST'])
 def addhunt():
     if loggedin():
-        db = mongo.db
-        if request.method=='POST':
-            huntname = request.form['name']
-            prize = float(request.form['prize'])
-            keys = request.form.getlist('keys[]')
-            clues = request.form.getlist('clues[]')
-            email = session['user']
-            firmname = db.users.find_one({"Email":email})["Firm"]
-            length = len(keys)
-            participants = 0
-            db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':str(json.dumps(keys)), 'clues':str(json.dumps(clues)), 'Email':email, 'Firm': firmname, 'length':length, 'participants': 0})
-        return redirect(url_for('adhome'))
+        if internet:
+            db = mongo.db
+            if request.method=='POST':
+                huntname = request.form['name']
+                prize = float(request.form['prize'])
+                keys = request.form.getlist('keys[]')
+                clues = request.form.getlist('clues[]')
+                email = session['user']
+                firmname = db.users.find_one({"Email":email})["Firm"]
+                length = len(keys)
+                db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':str(json.dumps(keys)), 'clues':str(json.dumps(clues)), 'Email':email, 'Firm': firmname, 'length':length })
+            return redirect(url_for('adhome'))
     else:
         return redirect(url_for('adlogin'))
 
@@ -97,24 +100,26 @@ def adlogin():
 @app.route('/signup', methods = ['GET','POST'])
 def add_advertiser():
     if request.method == 'POST':
-        db = mongo.db
-        username = request.form['signup_email']
-        name = request.form['signup_firm']
-        password = request.form['signup_password']
-        _key = request.form['signup_token']
-        if(db.users.find_one({"Email":username}) != None):
-            flash("that username is already in use")
-            return render_template('signup.html')
+        if internet:
+            db = mongo.db
+            username = request.form['signup_email']
+            name = request.form['signup_firm']
+            password = request.form['signup_password']
+            if(db.users.find_one({"Email":username}) != None):
+                flash("that username is already in use")
+                return render_template('signup.html')
         else:
-            db.users.insert({"Email":username,"Password":password, "Firm": name, 'DwollaUser':_key})
+            if internet:
+                db.users.insert({"Email":username,"Password":password, "Firm": name, 'DwollaUser':_key})
             flash("signup successful")
             return redirect(url_for('adlogin'))
     else:
         return render_template('signup.html')
 
 def login(name, password):
-    db = mongo.db
-    usr_obj = db.users.find_one({"Email":name})
+    if internet:
+        db = mongo.db
+        usr_obj = db.users.find_one({"Email":name})
     if( (usr_obj != None) and (usr_obj['Password']==password)):
         return True
     else:
@@ -137,9 +142,9 @@ def found_item():
     number = request.values.get('From', None)
     
     message = ""
-    
-    db = mongo.db
-    number_obj = db.numbers.find_one({'Number': number})
+    if internet: 
+        db = mongo.db
+        number_obj = db.numbers.find_one({'Number': number})
     active_hunt = None
     if number_obj != None: 
         active_hunt = number_obj['activehunt']	
@@ -155,16 +160,16 @@ def found_item():
 	    resp.message(message)
 	    return str(resp)
 	else:
-            #hunt is valid, so add a number to numbers database
-	    db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
-	    part_num = active_hunt['participants'] + 1
-	    db.hunts.update({'_id':active_hunt['_id']},{'$inc':{'d.a': 1}},upsert=False, multi=False)
-	    keys = active_hunt['keys']
-	    message = message + "You have registed for " + active_hunt['huntname'] + ". Find " + keys[0]
-	    resp = twilio.twiml.Response()
-	    resp.message(message)
-	    return str(resp)	    
-    
+            if internet:
+                #hunt is valid, so add a number to numbers database
+                db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
+                keys = active_hunt['keys']
+                message = message + "You have registed for " + active_hunt['huntname'] + ". Find " + keys[0]
+                resp = twilio.twiml.Response()
+                resp.message(message)
+                return str(resp)	    
+            else:
+                return "no internet"
     #number is registered with a hunt
     user = db.numbers.find_one({'Number':number})
     keys = json.loads(active_hunt['keys'])
@@ -175,14 +180,14 @@ def found_item():
     	index = index + 1
         message = "Congrats! You found " + item + ". "
         #update cluenumber
-        db.numbers.update({'number':user['number']},{'cluenumber': index},True)
         
         if index >= len(keys):
             #You're done. Remove number from database
             message = message + "Congratulations! You have won."
             resp = twilio.twiml.Response()
             resp.message(message)
-            db.numbers.remove({'Number':number})
+            if internet:
+                db.numbers.remove({'Number':number})
         else:
             message = message + "Now try to find " + keys[index]
             resp = twilio.twiml.Response()
