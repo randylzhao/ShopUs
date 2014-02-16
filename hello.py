@@ -160,7 +160,7 @@ def found_item():
     
     #number is registered with a hunt
     user = db.numbers.find_one({'Number':number})
-    keys = active_hunt['keys']
+    keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
     
     if item == keys[index]:
@@ -175,7 +175,7 @@ def found_item():
             message = message + "Congratulations! You have won."
             resp = twilio.twiml.Response()
             resp.message(message)
-            db.numbers.remove({'number':number})
+            db.numbers.remove({'Number':number})
         else:
             message = message + "Now try to find " + keys[index]
             resp = twilio.twiml.Response()
