@@ -135,8 +135,6 @@ def found_item():
     resp.message(message)
     
     db = Mongo.db
-    db.numbers.insert({"Number": 1234, "activehunt": None, "cluenumber": 0})
-    
     number_obj = db.numbers.find_one({'number': number})
     if number_obj != None: 
         active_hunt = number_obj['activehunt']
