@@ -131,15 +131,12 @@ def found_item():
     number = request.values.get('From', None)
     
     message = "Testing 1"
-    resp = twilio.twiml.Response()
-    resp.message(message)
     
     db = mongo.db
     number_obj = db.numbers.find_one({'number': number})
     if number_obj != None: 
         active_hunt = number_obj['activehunt']
         
-    return str(resp)
     
     #User starts a hunt
     if active_hunt == None:
@@ -147,7 +144,7 @@ def found_item():
     	active_hunt = db.hunts.find_one({'huntname':item})
     	if active_hunt == None:
     	    #hunt is not valid
-	    message = "Hunt ("+item+") not found."
+	    message = message + "Hunt ("+item+") not found."
 	    resp = twilio.twiml.Response()
 	    resp.message(message)
 	    return str(resp)
