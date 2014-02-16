@@ -179,8 +179,8 @@ def found_item():
             if internet:
                 #hunt is valid, so add a number to numbers database
                 db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
-                keys = active_hunt['keys']
-                message = message + "You have registed for " + active_hunt['huntname'] + ". Find " + clues[0]
+                clues = active_hunt['clues']
+                message = message + "You have registed for " + active_hunt['huntname'] + ". Clue:" + clues[0]
                 resp = twilio.twiml.Response()
                 #update participants
                 participants = active_hunt['participants']
@@ -192,6 +192,7 @@ def found_item():
     #number is registered with a hunt
     user = db.numbers.find_one({'Number':number})
     keys = json.loads(active_hunt['keys'])
+    clues = json.loads(active_hunt['clues'])
     index = user['cluenumber']    
 
     if item == keys[index]:
@@ -207,10 +208,12 @@ def found_item():
             reward = active_hunt['reward']
             if left>=reward:
                 db.numbers.update({'_id':active_hunt['_id']},{'$set':{'prizes':left-reward}},upsert=False, multi=False)
+                message = "done"
+                resp = twilio.twiml.Response()
+                resp.message(message)
                 person = db.users.find_one({'Email':active_hunt['Email']})
                 DU = DwollaUser(person['token'])
                 DU.send_funds(active_hunt['reward'], user['Number'], person['pin'])
-
                 message = message + "Congratulations! You have won $("+active_hunt['reward']+")!"
                 resp = twilio.twiml.Response()
                 resp.message(message)
@@ -222,7 +225,7 @@ def found_item():
             if internet:
                 db.numbers.remove({'Number':number})
         else:
-            message = message + "Now try to find " + keys[index]
+            message = message + "Clue:" + clues[index]
             resp = twilio.twiml.Response()
             resp.message(message)    
     else:
