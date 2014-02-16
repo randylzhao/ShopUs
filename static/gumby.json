@@ -4,7 +4,6 @@
 		"outpath" : ".",
 		"modules": ["retina", "toggleswitch", "validation"],
         "files":["js/libs/modernizr-2.6.2.min.js",
-        "js/libs/jquery-2.1.0.min.js","js/main.js",
         "bower_components/gumby-parallax/gumby.parallax.js"],
 		"buildSourceMap": true
 	}
