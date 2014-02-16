@@ -132,7 +132,7 @@ def found_item():
     item = str(request.values.get('Body', None))
     number = request.values.get('From', None)
     
-    message = ""
+    message = "asdf"
     
     db = mongo.db
     number_obj = db.numbers.find_one({'Number': number})
