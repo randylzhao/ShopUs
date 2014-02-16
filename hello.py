@@ -179,8 +179,8 @@ def found_item():
             if internet:
                 #hunt is valid, so add a number to numbers database
                 db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
-                keys = active_hunt['keys']
-                message = message + "You have registed for " + active_hunt['huntname'] + ". Find " + clues[0]
+                clues = active_hunt['clues']
+                message = message + "You have registed for " + active_hunt['huntname'] + ". Clue:" + clues[0]
                 resp = twilio.twiml.Response()
                 #update participants
                 participants = active_hunt['participants']
@@ -191,7 +191,7 @@ def found_item():
                 return "no internet"
     #number is registered with a hunt
     user = db.numbers.find_one({'Number':number})
-    keys = json.loads(active_hunt['keys'])
+    keys = json.loads(active_hunt['clues'])
     index = user['cluenumber']    
 
     if item == keys[index]:
@@ -222,7 +222,7 @@ def found_item():
             if internet:
                 db.numbers.remove({'Number':number})
         else:
-            message = message + "Now try to find " + keys[index]
+            message = message + "Clue:" + keys[index]
             resp = twilio.twiml.Response()
             resp.message(message)    
     else:
