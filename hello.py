@@ -164,13 +164,12 @@ def found_item():
     keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
 
-    
     if item == keys[index]:
     	#Correct answer
     	index = index + 1
         message = "Congrats! You found " + item + ". "
         #update cluenumber
-        db.numbers.update({'Number':number},{'cluenumber': index}, multi = True)
+        db.numbers.update({'_id':user['_id']},{'cluenumber': index})
         
         if index >= len(keys):
             #You're done. Remove number from database
