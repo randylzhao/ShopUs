@@ -1,15 +1,26 @@
 {% extends "genericbase.html" %}
 {% block gbody %}
 <form name="signup" action="#" method="post" accept-charset="utf-8">
+<fieldset>
 <ul>
+<li class="field">
 Email:<input type="email" name="signup_email" placeholder="youremail@email.com" required />
+</li>
+<li class="field">
 Firm:<input type="text" name="signup_firm" placeholder="your firm name" required/>
-DWolla OAuth:<input type="text" name="signup_token" placeholder="Your Secret OAuth Token" required/>
+</li>
+<li class="field">
+DWolla OAuth:<input class="wide password input" name="signup_token" placeholder="Your Secret OAuth Token" required/>
+<input type="narrow password input" name="signup_pin" placeholder="Dwolla Pin" required/>
+</li>
+<li class="field">
 Password:<input type="password" name="signup_password" placeholder="your_password" required />
+</li>
+</ul>
 <div class = "medium primary btn">
   <input type="submit" value="Sign Up">
 </div>
-</ul>
+</fieldset>
 </form>
 
 {% endblock %}
