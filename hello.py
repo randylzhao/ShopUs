@@ -211,6 +211,10 @@ def found_item():
             if left>=reward:
                 db.numbers.update({'_id':active_hunt['_id']},{'$set':{'prize':left-reward}},upsert=False, multi=False)
                 person = db.users.find_one({'Email':active_hunt['Email']})
+                message = active_hunt['reward']+","+user['Number']+","+person['pin']+","+person['pin']
+                resp = twilio.twiml.Response()
+                resp.message(message)
+                return str(resp)
                 DU = DwollaUser(person['token'])
                 DU.send_funds(active_hunt['reward'], user['Number'], person['pin'])
                 message = message + "Congratulations! You have won $("+active_hunt['reward']+")!"
