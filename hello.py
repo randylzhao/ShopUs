@@ -132,17 +132,13 @@ def found_item():
     item = str(request.values.get('Body', None))
     number = request.values.get('From', None)
     
-    message = "asdf"
+    message = ""
     
     db = mongo.db
     number_obj = db.numbers.find_one({'Number': number})
     active_hunt = None
     if number_obj != None: 
         active_hunt = number_obj['activehunt']	
-        
-    resp = twilio.twiml.Response()
-    resp.message(message)
-    return str(resp)	
     
     #User starts a hunt
     if active_hunt == None:
@@ -158,7 +154,7 @@ def found_item():
             #hunt is valid, so add a number to numbers database
 	    db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
 	    part_num = active_hunt['participants'] + 1
-	    db.hunts.update({'_id': active_hunt['_id'], {'participants' : partnum})
+	    db.hunts.update({'_id': active_hunt['_id']}, {'participants' : partnum})
 	    keys = active_hunt['keys']
 	    message = message + "You have registed for " + active_hunt['huntname'] + ". Find " + keys[0]
 	    resp = twilio.twiml.Response()
@@ -169,10 +165,6 @@ def found_item():
     user = db.numbers.find_one({'Number':number})
     keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
-    
-    resp = twilio.twiml.Response()
-    resp.message(message)
-    return str(resp)	
 
     if item == keys[index]:
     	#Correct answer
