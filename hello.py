@@ -55,7 +55,8 @@ def addhunt():
             clues = request.form.getlist('clues[]')
             email = session['user']
             firmname = db.users.find_one({"Email":email})["Firm"]
-            db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':str(json.dumps(keys)), 'Email':email, 'Firm': firmname })
+            length = len(keys)
+            db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':str(json.dumps(keys)), 'clues':str(json.dumps(clues)), 'Email':email, 'Firm': firmname, 'length':length })
         return redirect(url_for('adhome'))
     else:
         return redirect(url_for('adlogin'))
@@ -157,7 +158,7 @@ def found_item():
 	else:
             #hunt is valid, so add a number to numbers database
 	    db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
-	    keys = active_hunt['keys']
+	    keys = json.loads(active_hunt['keys'])
 	    message = "Lolz. You registed for " + active_hunt['huntname'] + \
                     ". Find " + keys[0]
 	    resp = twilio.twiml.Response()
@@ -166,7 +167,7 @@ def found_item():
         
     #number is registered with a hunt
     user = db.numbers.find_one({'number':number})
-    keys = active_hunt['keys']
+    keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
     
     if item == keys[index]:
