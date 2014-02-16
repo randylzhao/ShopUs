@@ -1,13 +1,20 @@
 {%extends "genericbase.html" %}
 {% block gbody %}
+
 <form name="login" action="login" method="post" accept-charset="utf-8">
+<fieldset style="width:75%; left:13%; position:relative;">
 <ul>
+<li class="field">
 Email:<input type="email" name="login_email" placeholder="youremail@email.com" required />
+</li>
+<li class="field">
 Password:<input type="password" name="login_password" placeholder="your_password" required />
+</li>
+</ul>
 <div class = "medium primary btn">
   <input type="submit" value="Login">
 </div>
-</ul>
+</fieldset>
 </form>
 {% endblock %}
 
