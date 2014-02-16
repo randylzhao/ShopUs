@@ -65,7 +65,7 @@ def addhunt():
                 reward = float(request.form['reward'])
                 firmname = db.users.find_one({"Email":email})["Firm"]
                 length = len(keys)
-                db.hunts.insert({'huntname':huntname, 'prize':prize, 'reward':reward, 'keys':str(json.dumps(keys)), 'clues':str(json.dumps(clues)), 'Email':email, 'Firm': firmname, 'length':length })
+                db.hunts.insert({'huntname':huntname, 'prize':prize, 'reward':reward, 'keys':str(json.dumps(keys)), 'clues':str(json.dumps(clues)), 'Email':email, 'Firm': firmname, 'length':length, 'participants':0 })
             return redirect(url_for('adhome'))
     else:
         return redirect(url_for('adlogin'))
@@ -208,6 +208,7 @@ def found_item():
             message = "done"
             resp = twilio.twiml.Response()
             resp.message(message)
+            return str(resp)
             active_hunt = db.hunts.find_one({'huntname':user['activehunt']['huntname']})
             left = active_hunt['prizes']
             reward = active_hunt['reward']
