@@ -132,7 +132,7 @@ def found_item():
     item = str(request.values.get('Body', None))
     number = request.values.get('From', None)
     
-    message = "Hello"
+    message = ""
     
     db = mongo.db
     number_obj = db.numbers.find_one({'Number': number})
@@ -165,6 +165,10 @@ def found_item():
     user = db.numbers.find_one({'Number':number})
     keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
+    
+    resp = twilio.twiml.Response()
+    resp.message(message)
+    return str(resp)	
 
     if item == keys[index]:
     	#Correct answer
