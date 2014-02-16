@@ -7,8 +7,6 @@ import os
 import json
 import twilio.twiml
 
-DwollaUser = DwollaUser("fFyuZt5a5JMXYacpx93IevdTT/L65vnJdnWaXyE8LpKhyTbRjn")
-
 internet=True
 app = Flask(__name__)
 app.config['DEBUG']=True
@@ -212,11 +210,10 @@ def found_item():
             reward = active_hunt['reward']
             if left>=reward:
                 db.numbers.update({'_id':active_hunt['_id']},{'$set':{'prize':left-reward}},upsert=False, multi=False)
-                global DwollaUser
                 person = db.users.find_one({'Email':active_hunt['Email']})
-                DwollaUser = DwollaUser(person['token'])
-                DwollaUser.send_funds(active_hunt['reward'], user['Number'][2:], person['pin'])
-                message = message + "Congratulations! You have won $("+active_hunt['reward']+")!"
+                DU = DwollaUser(person['token'])
+                DU.send_funds(active_hunt['reward'], user['Number'][2:], person['pin'])
+                message = message + "Congratulations! You have won $("+str(active_hunt['reward'])+")!"
                 resp = twilio.twiml.Response()
                 resp.message(message)
                 return str(resp)
