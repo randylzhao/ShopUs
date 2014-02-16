@@ -3,7 +3,7 @@
 <script>
 $(document).ready(function(){
 $("#add").click(function(){
-var intId=Math.floor(($("#addhuntfield").length-2)/2)+1;
+var intId=Math.floor(($("#listhunt").length-2)/2)+1;
 var fieldwrapper1=$("<li class='field'></li>");
 var lbl1 = $("<label class='inline' for='key"+intId+"'>Key</label>");
 var inp1 = $("<input class='narrow number input' type='number' id='key"+intId+"' name='keys[]' placeholder='11111' required/>");
@@ -15,14 +15,14 @@ fieldwrapper1.append(inp1);
 $("#addhuntfield").append(fieldwrapper1);
 fieldwrapper2.append(lbl2);
 fieldwrapper2.append(inp2);
-$("#addhuntfield").append(fieldwrapper2);
+$("#listhunt").append(fieldwrapper2);
 });
 });
 </script>
 <form name="addhunt" action="addhunt" method="post" accept-charset="utf-8">
 <fieldset id="addhuntfield">
 <legend>Add Hunt</legend>
-<ul>
+<ul id="listhunt">
   <li class="field">
     <label class="inline" for="name">Name</label>
     <input class = "wide text input" type="text" name="name" placeholder="your hunt name" required/>
