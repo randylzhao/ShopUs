@@ -144,7 +144,7 @@ def found_item():
         number_obj = db.numbers.find_one({'Number': number})
     active_hunt = None
     if number_obj != None: 
-        active_hunt = number_obj['activehunt']
+        active_hunt = number_obj['activehunt']	
     
     #User starts a hunt
     if active_hunt == None:
@@ -167,19 +167,16 @@ def found_item():
                 return str(resp)	    
             else:
                 return "no internet"
-    
     #number is registered with a hunt
     user = db.numbers.find_one({'Number':number})
     keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
-    
+
     if item == keys[index]:
     	#Correct answer
     	index = index + 1
         message = "Congrats! You found " + item + ". "
         #update cluenumber
-        if internet:
-            db.numbers.update({'Number':number},{'cluenumber': index}, multi = True)
         
         if index >= len(keys):
             #You're done. Remove number from database
