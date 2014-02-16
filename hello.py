@@ -136,10 +136,10 @@ def found_item():
     message = "Testing 1"
     resp = twilio.twiml.Response()
     resp.message(message)
-    return str(resp)
     
     db = Mongo.db
-    active_hunt = db.numbers.find_one({'activehunt':number})
+    active_hunt = db.numbers.find_one({'number': number})['activehunt']
+    return asdf
     
     #User starts a hunt
     if active_hunt == None:
