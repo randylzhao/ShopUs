@@ -1,5 +1,8 @@
 from flask import *
 from flask.ext.pymongo import PyMongo
+from dwolla import DwollaUser
+
+
 import os
 import json
 import twilio.twiml
@@ -98,11 +101,12 @@ def add_advertiser():
         username = request.form['signup_email']
         name = request.form['signup_firm']
         password = request.form['signup_password']
+        _key = request.form['signup_token']
         if(db.users.find_one({"Email":username}) != None):
             flash("that username is already in use")
             return render_template('signup.html')
         else:
-            db.users.insert({"Email":username,"Password":password, "Firm": name})
+            db.users.insert({"Email":username,"Password":password, "Firm": name, 'DwollaUser':_key})
             flash("signup successful")
             return redirect(url_for('adlogin'))
     else:
