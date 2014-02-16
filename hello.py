@@ -147,7 +147,7 @@ def format(unformated):
     one = "1"
     if len(nums) < 10: return "1-111-111-1111"
     if len(nums) == 11:
-    	nums = unformated[1:]
+    	nums = nums[1:]
     first = nums[:3]
     second = nums[3:6]
     third = nums[6:10]
