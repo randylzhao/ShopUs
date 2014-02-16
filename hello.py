@@ -158,7 +158,7 @@ def found_item():
             #hunt is valid, so add a number to numbers database
 	    db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
 	    part_num = active_hunt['participants'] + 1
-	    db.hunts.update({'_id': active_hunt['_id']}, {'participants' : partnum})
+	    db.hunts.update({'_id':active_hunt['_id']},{'$inc':{'d.a': 1}},upsert=False, multi=False)
 	    keys = active_hunt['keys']
 	    message = message + "You have registed for " + active_hunt['huntname'] + ". Find " + keys[0]
 	    resp = twilio.twiml.Response()
