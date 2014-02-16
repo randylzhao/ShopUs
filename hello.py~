@@ -6,7 +6,6 @@ import twilio.twiml
 
 
 app = Flask(__name__)
-app.config['DEBUG']=True
 PHONE = "412-515-8483"
 app.secret_key = os.urandom(100)
 if not hasattr(app.config,'MONGO_URI'):
@@ -124,24 +123,27 @@ def customer():
     db = mongo.db
     hunts = db.hunts.find().sort("Firm")
     return render_template('viewhunts.html', hunts = hunts, phone = PHONE)
-      
+        
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
+
+#Twilio shit
+hunt_list = [
+    "cat",
+    "dog",
+    "1234"
+]
+
 @app.route("/founditem", methods=['GET', 'POST'])
 def found_item():
     item = request.values.get('Body', None)
     number = request.values.get('From', None)
     
-    message = "Testing 1"
-    resp = twilio.twiml.Response()
-    resp.message(message)
-    
     db = Mongo.db
-    db.numbers.insert({"Number": 1234, "activehunt": none, "cluenumber": 0})
-    
-    number_obj = db.numbers.find_one({'number': number})
-    if number_obj != None: 
-        active_hunt = number_obj['activehunt']
-        
-    return str(resp)
+    active_hunt = db.numbers.find_one({'activehunt':number})
     
     #User starts a hunt
     if active_hunt == None:
@@ -157,7 +159,8 @@ def found_item():
             #hunt is valid, so add a number to numbers database
 	    db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
 	    keys = json.loads(active_hunt['keys'])
-	    message = "You have registed for " + active_hunt['huntname'] + ". Find " + keys[0]
+	    message = "You have registed for " + active_hunt['huntname'] + \
+                    ". Find " + keys[0]
 	    resp = twilio.twiml.Response()
 	    resp.message(message)
 	    return str(resp)	    
@@ -191,7 +194,4 @@ def found_item():
         resp = twilio.twiml.Response()
         resp.message(message)
     return str(resp)
-
-if __name__ == "__main__":
-    app.run(debug=True)
     
