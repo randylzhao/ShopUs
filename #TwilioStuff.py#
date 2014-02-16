@@ -1,0 +1,10 @@
+from flask import Flask, request, redirect
+import twilio.twiml
+
+hunt_list = [
+    "cat",
+    "dog",
+    "1234"
+]
+
+
