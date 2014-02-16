@@ -6,7 +6,7 @@ $("#add").click(function(){
 var intId=Math.floor(($("#listhunt").length-2)/2)+1;
 var fieldwrapper1=$("<li class='field'></li>");
 var lbl1 = $("<label class='inline' for='key"+intId+"'>Key</label>");
-var inp1 = $("<input class='narrow number input' type='number' id='key"+intId+"' name='keys[]' placeholder='11111' required/>");
+var inp1 = $("<input class='narrow text input' type='number' id='key"+intId+"' name='keys[]' placeholder='11111' required/>");
 var fieldwrapper2=$("<li class='field'></li>");
 var lbl2 = $("<label class='inline' for='clue"+intId+"'>Clue</label>");
 var inp2 = $("<textarea class='input textarea' type='number' id='clue"+intId+"' name='clues[]' placeholder='Take a picture of the first item on aisle 9' required/></textarea>");
@@ -37,7 +37,7 @@ $("#listhunt").append(fieldwrapper2);
   </li>
   <li class="field">
     <label class="inline" for="key1">Key</label>
-    <input class = "narrow number input" type="number" id="key1" name="keys[]" placeholder="3929182" required/>
+    <input class = "narrow text input" type="number" id="key1" name="keys[]" placeholder="3929182" required/>
   </li>
   <li class="field">
     <label class="inline" for="clue1">Clue</label>
