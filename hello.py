@@ -138,6 +138,8 @@ def found_item():
     number_obj = db.numbers.find_one({'number': number})
     if number_obj != None: 
         active_hunt = number_obj['activehunt']
+        
+    return str(resp)
     
     #User starts a hunt
     if active_hunt == None:
