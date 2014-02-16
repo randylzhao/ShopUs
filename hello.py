@@ -131,13 +131,17 @@ def found_item():
     item = str(request.values.get('Body', None))
     number = request.values.get('From', None)
     
-    message = ""
+    message = "Hello"
     
     db = mongo.db
     number_obj = db.numbers.find_one({'Number': number})
     active_hunt = None
     if number_obj != None: 
         active_hunt = number_obj['activehunt']
+    
+    resp = twilio.twiml.Response()
+    resp.message(message)
+    return str(resp)	
     
     #User starts a hunt
     if active_hunt == None:
