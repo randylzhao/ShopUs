@@ -141,9 +141,9 @@ def found_item():
     
     #User starts a hunt
     if active_hunt == None:
-    	return str(resp)
     	#Checks whether 'item' (a hunt name) is a valid huntname
     	active_hunt = db.hunts.find_one({'huntname':item})
+    	return str(resp)
     	if active_hunt == None:
     	    #hunt is not valid
 	    message = "Hunt ("+item+") not found."
