@@ -57,7 +57,8 @@ def addhunt():
             email = session['user']
             firmname = db.users.find_one({"Email":email})["Firm"]
             length = len(keys)
-            db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':str(json.dumps(keys)), 'clues':str(json.dumps(clues)), 'Email':email, 'Firm': firmname, 'length':length })
+            participants = 0
+            db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':str(json.dumps(keys)), 'clues':str(json.dumps(clues)), 'Email':email, 'Firm': firmname, 'length':length, 'participants': 0})
         return redirect(url_for('adhome'))
     else:
         return redirect(url_for('adlogin'))
