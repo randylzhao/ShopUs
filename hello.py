@@ -181,7 +181,7 @@ def found_item():
             if internet:
                 #hunt is valid, so add a number to numbers database
                 db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
-                clues = active_hunt['clues']
+                clues = json.loads(active_hunt['clues'])
                 message = message + "You have registed for " + active_hunt['huntname'] + ". Clue:" + clues[0]
                 resp = twilio.twiml.Response()
                 #update participants
@@ -205,16 +205,16 @@ def found_item():
         db.numbers.update({'_id':user['_id']},{'$set':{'cluenumber':index}},upsert=False, multi=False)
         if index >= len(keys):
             #You're done. Remove number from database
-            message = "done"
-            resp = twilio.twiml.Response()
-            resp.message(message)
-            return str(resp)
             active_hunt = db.hunts.find_one({'huntname':user['activehunt']['huntname']})
             left = active_hunt['prizes']
             reward = active_hunt['reward']
             if left>=reward:
                 db.numbers.update({'_id':active_hunt['_id']},{'$set':{'prizes':left-reward}},upsert=False, multi=False)
                 person = db.users.find_one({'Email':active_hunt['Email']})
+                message = "done"
+                resp = twilio.twiml.Response()
+                resp.message(message)
+                return str(resp)
                 DU = DwollaUser(person['token'])
                 DU.send_funds(active_hunt['reward'], user['Number'], person['pin'])
                 message = message + "Congratulations! You have won $("+active_hunt['reward']+")!"
