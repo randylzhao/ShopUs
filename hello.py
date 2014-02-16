@@ -62,9 +62,10 @@ def addhunt():
                 keys = request.form.getlist('keys[]')
                 clues = request.form.getlist('clues[]')
                 email = session['user']
+                reward = float(request.form['reward'])
                 firmname = db.users.find_one({"Email":email})["Firm"]
                 length = len(keys)
-                db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':str(json.dumps(keys)), 'clues':str(json.dumps(clues)), 'Email':email, 'Firm': firmname, 'length':length })
+                db.hunts.insert({'huntname':huntname, 'prize':prize, 'reward':reward, 'keys':str(json.dumps(keys)), 'clues':str(json.dumps(clues)), 'Email':email, 'Firm': firmname, 'length':length })
             return redirect(url_for('adhome'))
     else:
         return redirect(url_for('adlogin'))
@@ -105,12 +106,14 @@ def add_advertiser():
             username = request.form['signup_email']
             name = request.form['signup_firm']
             password = request.form['signup_password']
+            _key = request.form['signup_token']
+            _pin = request.form['signup_pin']
             if(db.users.find_one({"Email":username}) != None):
                 flash("that username is already in use")
                 return render_template('signup.html')
         else:
             if internet:
-                db.users.insert({"Email":username,"Password":password, "Firm": name, 'DwollaUser':_key})
+                db.users.insert({"Email":username,"Password":password, "Firm": name, 'token':_key, 'pin':_pin})
             flash("signup successful")
             return redirect(url_for('adlogin'))
     else:
@@ -164,8 +167,11 @@ def found_item():
                 #hunt is valid, so add a number to numbers database
                 db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
                 keys = active_hunt['keys']
-                message = message + "You have registed for " + active_hunt['huntname'] + ". Find " + keys[0]
+                message = message + "You have registed for " + active_hunt['huntname'] + ". Find " + clues[0]
                 resp = twilio.twiml.Response()
+                #update participants
+                participants = active_hunt['participants']
+                db.hunts.update({'_id':active_hunt['_id']},{'$set':{'participants':participants+1}},upsert=False, multi=False)
                 resp.message(message)
                 return str(resp)	    
             else:
@@ -183,9 +189,23 @@ def found_item():
         db.numbers.update({'_id':user['_id']},{'$set':{'cluenumber':index}},upsert=False, multi=False)
         if index >= len(keys):
             #You're done. Remove number from database
-            message = message + "Congratulations! You have won."
-            resp = twilio.twiml.Response()
-            resp.message(message)
+            active_hunt = db.hunts.find_one({'huntname':user['activehunt']['huntname']})
+            left = active_hunt['prizes']
+            reward = active_hunt['reward']
+            if left>=reward:
+                db.numbers.update({'_id':active_hunt['_id']},{'$set':{'prizes':left-reward}},upsert=False, multi=False)
+                person = db.users.find_one({'Email':active_hunt['Email']})
+                DU = DwollaUser(person['token'])
+                DU.send_funds(active_hunt['reward'], user['Number'], person['pin'])
+
+                message = message + "Congratulations! You have won $("+active_hunt['reward']+")!"
+                resp = twilio.twiml.Response()
+                resp.message(message)
+            else:
+                message = message + "Congratulations! You have won. However, all the rewards have already been plundered. :'("
+                resp = twilio.twiml.Response()
+                resp.message(message)
+                
             if internet:
                 db.numbers.remove({'Number':number})
         else:
