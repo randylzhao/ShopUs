@@ -115,9 +115,10 @@ def login(name, password):
     else:
         return False
 
+@app.route('/logout')
 def logout():
     session.pop('user', None)
-    return redirect(url_for('login'))
+    return redirect('/')
 
 @app.route('/viewhunts')
 def customer():
