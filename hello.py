@@ -6,6 +6,7 @@ import twilio.twiml
 
 
 app = Flask(__name__)
+app.config['DEBUG']=True
 PHONE = "412-515-8483"
 app.secret_key = os.urandom(100)
 if not hasattr(app.config,'MONGO_URI'):
