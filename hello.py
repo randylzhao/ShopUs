@@ -154,7 +154,7 @@ def found_item():
 	    resp = twilio.twiml.Response()
 	    resp.message(message)
 	    return str(resp)
-	else
+	else:
             #hunt is valid, so add a number to numbers database
 	    db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
 	    keys = active_hunt['keys']
