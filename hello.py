@@ -124,11 +124,7 @@ def customer():
     db = mongo.db
     hunts = db.hunts.find().sort("Firm")
     return render_template('viewhunts.html', hunts = hunts, phone = PHONE)
-        
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
+      
 @app.route("/founditem", methods=['GET', 'POST'])
 def found_item():
     item = request.values.get('Body', None)
@@ -139,9 +135,12 @@ def found_item():
     resp.message(message)
     
     db = Mongo.db
+    db.numbers.insert({"Number": 1234, "activehunt": none, "cluenumber": 0})
+    
     number_obj = db.numbers.find_one({'number': number})
     if number_obj != None: 
         active_hunt = number_obj['activehunt']
+        
     return str(resp)
     
     #User starts a hunt
@@ -192,4 +191,7 @@ def found_item():
         resp = twilio.twiml.Response()
         resp.message(message)
     return str(resp)
+
+if __name__ == "__main__":
+    app.run(debug=True)
     
