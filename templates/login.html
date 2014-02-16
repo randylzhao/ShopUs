@@ -2,7 +2,7 @@
 {% block gbody %}
 
 <form name="login" action="login" method="post" accept-charset="utf-8">
-<fieldset style="width:75%; left:13%; position:relative;">
+<fieldset style="width:50%; left:25%; position:relative; background-color:#FFFFFF;">
 <ul>
 <li class="field">
 Email:<input type="email" name="login_email" placeholder="youremail@email.com" required />
@@ -11,6 +11,9 @@ Email:<input type="email" name="login_email" placeholder="youremail@email.com" r
 Password:<input type="password" name="login_password" placeholder="your_password" required />
 </li>
 </ul>
+<div class="medium primary btn">
+  <a href="signup">Sign Up</a>
+</div>
 <div class = "medium primary btn">
   <input type="submit" value="Login">
 </div>

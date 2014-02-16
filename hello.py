@@ -139,10 +139,23 @@ def customer():
     hunts = db.hunts.find().sort("Firm")
     return render_template('viewhunts.html', hunts = hunts, phone = PHONE)
 
+
+def format(unformated):
+    nums = unformated[1:]
+    one = "1-"
+    if len(nums) < 10: return "1-111-111-1111"
+    if len(nums) == 11:
+    	nums = unformated[1:]
+    first = nums[:3]
+    second = nums[3:6]
+    third = nums[6:10]
+    return one + "-" + first + "-" + second + "-" + third
+
+
 @app.route("/founditem", methods=['GET', 'POST'])
 def found_item():
     item = str(request.values.get('Body', None))
-    number = request.values.get('From', None)
+    number = format(request.values.get('From', None))
     
     message = ""
     if internet: 
