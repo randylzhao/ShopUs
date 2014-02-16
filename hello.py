@@ -171,7 +171,7 @@ def found_item():
     	index = index + 1
         message = "Congrats! You found " + item + ". "
         #update cluenumber
-        db.numbers.update({'_id':user['_id']},{'cluenumber': index})
+        db.numbers.update({'number':user['number']},{'cluenumber': index},True)
         
         if index >= len(keys):
             #You're done. Remove number from database
