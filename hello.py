@@ -140,6 +140,11 @@ def found_item():
     
     #User starts a hunt
     if active_hunt == None:
+    	
+    	resp = twilio.twiml.Response()
+    	resp.message(message)
+    	return str(resp)
+    	
     	#Checks whether 'item' (a hunt name) is a valid huntname
     	active_hunt = db.hunts.find_one({'huntname':item})
     	if active_hunt == None:
