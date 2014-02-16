@@ -1686,4 +1686,6 @@ table.rounded thead th, table.rounded thead td, table.rounded caption + tbody tr
 
 .oldie .parallax, .ie9 .parallax { background-attachment: static !important; }
 
-#bg { background: url(http://www.hdtimelapse.net/content/HDtimelapse.net_People/HDtimelapse.net_People_0138_hirez.jpg); opacity: 0.5; z-index: -1; }
+#bg { background: url(http://i.imgur.com/H1ILrwP.jpg); width: 100%; height: 100%; padding: 0; margin: 0; background-size: full; }
+
+.hcenter { top: 50%; left: 50%; }
