@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 <p>
-  Hello, {{ session['user'] }}.
+  Your currently ongoing hunts.
 </p>
 <table class="striped">
   <thead>
@@ -16,7 +16,7 @@
     <tr>
       <td>{{ entry.huntname }}</td>
       <td>{{ entry.prize }}</td>
-      <td>{% for k in entry.keys %} ( {{ k }} ) {% endfor %} </td>
+      <td>{{ entry.keys }}</td>
     </tr>
     {% endfor %}
   </tbody>
