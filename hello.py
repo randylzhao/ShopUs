@@ -139,6 +139,10 @@ def found_item():
     active_hunt = None
     if number_obj != None: 
         active_hunt = number_obj['activehunt']	
+        
+    resp = twilio.twiml.Response()
+    resp.message(message)
+    return str(resp)	
     
     #User starts a hunt
     if active_hunt == None:
