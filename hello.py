@@ -151,7 +151,7 @@ def found_item():
     	active_hunt = db.hunts.find_one({'huntname':item})
     	if active_hunt == None:
     	    #hunt is not valid
-	    message = "No scavhunt found lolz"
+	    message = "Hunt ("+item+") not found."
 	    resp = twilio.twiml.Response()
 	    resp.message(message)
 	    return str(resp)
@@ -159,7 +159,7 @@ def found_item():
             #hunt is valid, so add a number to numbers database
 	    db.numbers.insert({"Number": number, "activehunt": active_hunt, "cluenumber": 0})
 	    keys = json.loads(active_hunt['keys'])
-	    message = "Lolz. You registed for " + active_hunt['huntname'] + \
+	    message = "You have registed for " + active_hunt['huntname'] + \
                     ". Find " + keys[0]
 	    resp = twilio.twiml.Response()
 	    resp.message(message)
@@ -181,7 +181,7 @@ def found_item():
         
         if index >= len(keys):
             #You're done. Remove number from database
-            message = "Lolz! You won! Congrats you scrub!"
+            message = "Congratulations! You have won."
             resp = twilio.twiml.Response()
             resp.message(message)
             db.numbers.remove({'number':number})
@@ -190,7 +190,7 @@ def found_item():
             resp = twilio.twiml.Response()
             resp.message(message)    
     else:
-        message = "Lolz. ur a n00b" + item   
+        message = "Sorry (" + item+") is not the right answer."   
         resp = twilio.twiml.Response()
         resp.message(message)
     return str(resp)
