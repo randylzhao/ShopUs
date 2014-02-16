@@ -1,0 +1,12 @@
+LICENSE
+MANIFEST.in
+README.rst
+requirements.txt
+setup.cfg
+setup.py
+dwolla/__init__.py
+pip-egg-info/dwolla.egg-info/PKG-INFO
+pip-egg-info/dwolla.egg-info/SOURCES.txt
+pip-egg-info/dwolla.egg-info/dependency_links.txt
+pip-egg-info/dwolla.egg-info/requires.txt
+pip-egg-info/dwolla.egg-info/top_level.txt
