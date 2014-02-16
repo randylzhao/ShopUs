@@ -138,13 +138,12 @@ def found_item():
     number_obj = db.numbers.find_one({'number': number})
     if number_obj != None: 
         active_hunt = number_obj['activehunt']
-        
-    return "asdf"
     
     #User starts a hunt
     if active_hunt == None:
     	#Checks whether 'item' (a hunt name) is a valid huntname
     	active_hunt = db.hunts.find_one({'huntname':item})
+    	return str(resp)
     	if active_hunt == None:
     	    #hunt is not valid
 	    message = "Hunt ("+item+") not found."
@@ -161,6 +160,7 @@ def found_item():
 	    return str(resp)	    
         
     #number is registered with a hunt
+    return str(resp)
     user = db.numbers.find_one({'number':number})
     keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
