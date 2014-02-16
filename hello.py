@@ -142,6 +142,11 @@ def found_item():
     item = request.values.get('Body', None)
     number = request.values.get('From', None)
     
+    message = "Testing 1"
+    resp = twilio.twiml.Response()
+    resp.message(message)
+    return "asdf"
+    
     db = Mongo.db
     active_hunt = db.numbers.find_one({'activehunt':number})
     
