@@ -138,7 +138,9 @@ def found_item():
     resp.message(message)
     
     db = Mongo.db
-    active_hunt = db.numbers.find_one({'number': number})['activehunt']
+    number_obj = db.numbers.find_one({'number': number})
+    if number_obj != None: 
+        active_hunt = number_obj['activehunt']
     return str(resp)
     
     #User starts a hunt
