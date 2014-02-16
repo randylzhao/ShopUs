@@ -51,8 +51,8 @@ def addhunt():
         if request.method=='POST':
             huntname = request.form['name']
             prize = float(request.form['prize'])
-            keys = request.form['keys[]']
-            clues = request.form['clues[]']
+            keys = request.form.getlist('keys[]')
+            clues = request.form.getlist('clues[]')
             email = session['user']
             firmname = db.users.find_one({"Email":email})["Firm"]
             db.hunts.insert({'huntname':huntname, 'prize':prize, 'keys':str(json.dumps(keys)), 'Email':email, 'Firm': firmname })
