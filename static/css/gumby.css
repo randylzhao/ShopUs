@@ -2296,7 +2296,7 @@ table.rounded thead th, table.rounded thead td, table.rounded caption + tbody tr
 
 .cartlogo { font-size: 2000%; top: 35%; left: 40%; position: absolute; color: whitesmoke; }
 
-li.product { display: inline-block; float: left; padding-left: 1.06383%; padding-right: 1.06383%; width: 100%; min-height: 300px; height: auto; }
-@media only screen and (min-width: 0px) { li.product { width: 100%; } }
-@media only screen and (min-width: 768px) { li.product { width: 50%; } }
-@media only screen and (min-width: 940px) { li.product { width: 25%; } }
+tr.product { display: inline-block; float: left; padding-left: 1.06383%; padding-right: 1.06383%; width: 100%; min-height: 300px; height: auto; }
+@media only screen and (min-width: 0px) { tr.product { width: 100%; } }
+@media only screen and (min-width: 768px) { tr.product { width: 50%; } }
+@media only screen and (min-width: 940px) { tr.product { width: 25%; } }

@@ -24,7 +24,7 @@ position: absolute;
 color: whitesmoke;
 }
 
-li.product{
+tr.product{
 @include fancytiles(4,2,1);
 min-height:300px;
 height:auto;
