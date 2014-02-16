@@ -106,14 +106,14 @@ def add_advertiser():
             username = request.form['signup_email']
             name = request.form['signup_firm']
             password = request.form['signup_password']
-            _key = request.form['signup_token']
-            _pin = request.form['signup_pin']
+            key = request.form['signup_token']
+            pin = request.form['signup_pin']
             if(db.users.find_one({"Email":username}) != None):
                 flash("that username is already in use")
                 return render_template('signup.html')
         else:
             if internet:
-                db.users.insert({"Email":username,"Password":password, "Firm": name, 'token':_key, 'pin':_pin})
+                db.users.insert({"Email":username,"Password":password, "Firm": name, "token":key, "pin":pin})
             flash("signup successful")
             return redirect(url_for('adlogin'))
     else:
