@@ -206,15 +206,15 @@ def found_item():
         if index >= len(keys):
             #You're done. Remove number from database
             active_hunt = db.hunts.find_one({'huntname':user['activehunt']['huntname']})
-            left = active_hunt['prizes']
+            left = active_hunt['prize']
             reward = active_hunt['reward']
-            message = "done " +str(left-reward)
-            resp = twilio.twiml.Response()
-            resp.message(message)
-            return str(resp)
             if left>=reward:
-                db.numbers.update({'_id':active_hunt['_id']},{'$set':{'prizes':left-reward}},upsert=False, multi=False)
+                db.numbers.update({'_id':active_hunt['_id']},{'$set':{'prize':left-reward}},upsert=False, multi=False)
                 person = db.users.find_one({'Email':active_hunt['Email']})
+                message = "done " +str(left-reward)
+                resp = twilio.twiml.Response()
+                resp.message(message)
+                return str(resp)
                 DU = DwollaUser(person['token'])
                 DU.send_funds(active_hunt['reward'], user['Number'], person['pin'])
                 message = message + "Congratulations! You have won $("+active_hunt['reward']+")!"
