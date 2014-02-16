@@ -137,11 +137,7 @@ def found_item():
     number_obj = db.numbers.find_one({'Number': number})
     active_hunt = None
     if number_obj != None: 
-        active_hunt = number_obj['activehunt']
-    
-    resp = twilio.twiml.Response()
-    resp.message(message)
-    return str(resp)	
+        active_hunt = number_obj['activehunt']	
     
     #User starts a hunt
     if active_hunt == None:
@@ -166,10 +162,7 @@ def found_item():
     user = db.numbers.find_one({'Number':number})
     keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
-    
-    resp = twilio.twiml.Response()
-    resp.message(message)
-    return str(resp)	
+
     
     if item == keys[index]:
     	#Correct answer
