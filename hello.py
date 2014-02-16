@@ -191,7 +191,8 @@ def found_item():
                 return "no internet"
     #number is registered with a hunt
     user = db.numbers.find_one({'Number':number})
-    keys = json.loads(active_hunt['clues'])
+    keys = json.loads(active_hunt['keys'])
+    clues = json.loads(active_hunt['clues'])
     index = user['cluenumber']    
 
     if item == keys[index]:
@@ -222,7 +223,7 @@ def found_item():
             if internet:
                 db.numbers.remove({'Number':number})
         else:
-            message = message + "Clue:" + keys[index]
+            message = message + "Clue:" + clues[index]
             resp = twilio.twiml.Response()
             resp.message(message)    
     else:
