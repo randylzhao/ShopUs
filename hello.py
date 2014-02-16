@@ -128,15 +128,6 @@ def customer():
 if __name__ == "__main__":
     app.run(debug=True)
 
-
-
-#Twilio shit
-hunt_list = [
-    "cat",
-    "dog",
-    "1234"
-]
-
 @app.route("/founditem", methods=['GET', 'POST'])
 def found_item():
     item = request.values.get('Body', None)
@@ -145,7 +136,7 @@ def found_item():
     message = "Testing 1"
     resp = twilio.twiml.Response()
     resp.message(message)
-    return "asdf"
+    return str(resp)
     
     db = Mongo.db
     active_hunt = db.numbers.find_one({'activehunt':number})
