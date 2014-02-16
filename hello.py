@@ -163,6 +163,11 @@ def found_item():
 	    return str(resp)	    
         
     #number is registered with a hunt
+    
+    resp = twilio.twiml.Response()
+    resp.message(message)
+    return str(resp)
+    
     user = db.numbers.find_one({'number':number})
     keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
