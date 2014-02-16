@@ -111,9 +111,9 @@ def add_advertiser():
             if(db.users.find_one({"Email":username}) != None):
                 flash("that username is already in use")
                 return render_template('signup.html')
-        else:
-            if internet:
-                db.users.insert({"Email":username,"Password":password, "Firm": name, "token":key, "pin":pin})
+            else:
+                if internet:
+                    db.users.insert({"Email":username,"Password":password, "Firm": name, "token":key, "pin":pin})
             flash("signup successful")
             return redirect(url_for('adlogin'))
     else:
