@@ -134,7 +134,7 @@ def found_item():
     message = ""
     
     db = mongo.db
-    number_obj = db.numbers.find_one({'number': number})
+    number_obj = db.numbers.find_one({'Number': number})
     active_hunt = None
     if number_obj != None: 
         active_hunt = number_obj['activehunt']
