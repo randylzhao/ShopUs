@@ -1,21 +1,17 @@
 {% extends "base.html" %}
+
 {% block body %}
+<body>
+    <div id="bg" class="parallax" 
+        gumby-parallax="0.75" gumby-offset="50">
+        <div id="whitelayer">
+            <div class = "centered">
 
-<div id="bg" class="parallax" gumby-parallax="0.5" gumby-offset="100">
-<div class = "centered">
-<div class = "cartlogo">
-<i class="icon-basket animated slideInLeft"></i>
-</div>  
-<div class="row hcenter">
-<div class="six columns large primary btn text-center">
-<a href="viewhunts">Customer</a>
-</div>
+                {% block gbody %}
+                {% endblock %}
 
-<div class="six columns text-center large primary btn">
-<a href="login">Advertiser</a>
-</div>
-</div>
-</div>
-</div>
-
+            </div>
+        </div>
+    </div>
+</body>
 {% endblock %}

@@ -16,10 +16,20 @@ position:absolute;
 top:60%;
 left:20%;
 }
-.cartlogo{
+.cartlogo
+{
 font-size: 2000%;
 top: 35%;
 left: 40%;
 position: absolute;
 color: whitesmoke;
+}
+
+#whitelayer
+{
+    background-color: rgba(255,255,255,.5);
+    top: 50%;
+    left: 50%;
+    width:95%;
+    height:95%;
 }
