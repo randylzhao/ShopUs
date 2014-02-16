@@ -124,10 +124,6 @@ def customer():
     hunts = db.hunts.find().sort("Firm")
     return render_template('viewhunts.html', hunts = hunts, phone = PHONE)
         
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
 @app.route("/founditem", methods=['GET', 'POST'])
 def found_item():
     item = request.values.get('Body', None)
@@ -141,7 +137,7 @@ def found_item():
     number_obj = db.numbers.find_one({'number': number})
     if number_obj != None: 
         active_hunt = number_obj['activehunt']
-    return str(resp)
+    return message
     
     #User starts a hunt
     if active_hunt == None:
@@ -192,3 +188,8 @@ def found_item():
         resp.message(message)
     return str(resp)
     
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
