@@ -1,5 +1,8 @@
 <!doctype html>
 <header>
+
+<script type="text/javascript" src="{{url_for('static',filename='js/libs/modernizr-2.6.2.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='js/libs/jquery-2.0.2.min.js')}}"></script>
 <link type="text/css" href="{{url_for('static', filename='css/gumby.css')}}" rel="stylesheet">
 <script type="text/javascript" src="{{url_for('static',filename='gumby.min.js')}}" ></script>
 <script type="text/javascript">
@@ -19,6 +22,8 @@ $(document).ready(function (){
 {% endif %}
 {% endwith %}
 <body>
-{% block body %}{% endblock %}
+{% block body %}
+
+{% endblock %}
 </body>
 </html>
