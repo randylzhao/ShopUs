@@ -124,30 +124,32 @@ def customer():
     db = mongo.db
     hunts = db.hunts.find().sort("Firm")
     return render_template('viewhunts.html', hunts = hunts, phone = PHONE)
-      
+
 @app.route("/founditem", methods=['GET', 'POST'])
 def found_item():
     item = request.values.get('Body', None)
     number = request.values.get('From', None)
     
     message = "Testing 1"
-    resp = twilio.twiml.Response()
-    resp.message(message)
     
-    db = Mongo.db
+    db = mongo.db
     number_obj = db.numbers.find_one({'number': number})
     if number_obj != None: 
         active_hunt = number_obj['activehunt']
         
-    return str(resp)
     
     #User starts a hunt
     if active_hunt == None:
+    	
+    	resp = twilio.twiml.Response()
+    	resp.message(message)
+    	return str(resp)
+    	
     	#Checks whether 'item' (a hunt name) is a valid huntname
     	active_hunt = db.hunts.find_one({'huntname':item})
     	if active_hunt == None:
     	    #hunt is not valid
-	    message = "Hunt ("+item+") not found."
+	    message = message + "Hunt ("+item+") not found."
 	    resp = twilio.twiml.Response()
 	    resp.message(message)
 	    return str(resp)
@@ -193,3 +195,6 @@ def found_item():
 if __name__ == "__main__":
     app.run(debug=True)
     
+
+
+
