@@ -81,6 +81,8 @@ def adhome():
 
 @app.route('/login', methods = ['GET', 'POST'])
 def adlogin():
+    if 'user' in session:
+        return redirect(url_for('adhome'))
     if request.method == 'POST':
         username = request.form['login_email']
         password = request.form['login_password']
@@ -203,14 +205,14 @@ def found_item():
         db.numbers.update({'_id':user['_id']},{'$set':{'cluenumber':index}},upsert=False, multi=False)
         if index >= len(keys):
             #You're done. Remove number from database
+            message = "done"
+            resp = twilio.twiml.Response()
+            resp.message(message)
             active_hunt = db.hunts.find_one({'huntname':user['activehunt']['huntname']})
             left = active_hunt['prizes']
             reward = active_hunt['reward']
             if left>=reward:
                 db.numbers.update({'_id':active_hunt['_id']},{'$set':{'prizes':left-reward}},upsert=False, multi=False)
-                message = "done"
-                resp = twilio.twiml.Response()
-                resp.message(message)
                 person = db.users.find_one({'Email':active_hunt['Email']})
                 DU = DwollaUser(person['token'])
                 DU.send_funds(active_hunt['reward'], user['Number'], person['pin'])
