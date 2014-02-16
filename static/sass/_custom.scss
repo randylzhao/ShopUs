@@ -23,3 +23,9 @@ left: 40%;
 position: absolute;
 color: whitesmoke;
 }
+
+tr.product{
+@include fancytiles(4,2,1);
+min-height:300px;
+height:auto;
+}
