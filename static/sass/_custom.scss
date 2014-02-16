@@ -1,8 +1,10 @@
 
 
+
 #bg
 {
 background: url(http://i.imgur.com/H1ILrwP.jpg);
+background-size:cover;
 width: 100%;
 height: 100%;
 padding:0;
@@ -43,7 +45,7 @@ color: whitesmoke;
 .footer
 {
     height: 55px;
-    position: relative;
-    top: -7%;
-    background-color: rgba(236, 236, 236,.2);
+    position: absolute;
+    bottom: 5%;
+    background-color: rgba(236, 236, 236,.6);
 }
