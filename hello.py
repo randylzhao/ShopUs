@@ -157,7 +157,10 @@ def found_item():
 	    resp = twilio.twiml.Response()
 	    resp.message(message)
 	    return str(resp)	    
-        
+    
+    resp = twilio.twiml.Response()
+    resp.message(message)
+    
     #number is registered with a hunt
     user = db.numbers.find_one({'number':number})
     keys = active_hunt['keys']
