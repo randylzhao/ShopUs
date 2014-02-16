@@ -142,7 +142,7 @@ def customer():
 
 def format(unformated):
     nums = unformated[1:]
-    one = "1-"
+    one = "1"
     if len(nums) < 10: return "1-111-111-1111"
     if len(nums) == 11:
     	nums = unformated[1:]
