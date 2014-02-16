@@ -163,6 +163,10 @@ def found_item():
     keys = json.loads(active_hunt['keys'])
     index = user['cluenumber']    
     
+    resp = twilio.twiml.Response()
+    resp.message(message)
+    return str(resp)	
+    
     if item == keys[index]:
     	#Correct answer
     	index = index + 1
